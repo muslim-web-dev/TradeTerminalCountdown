@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timeframe Countdown</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Timeframe Countdown</h1>
+        <p id="status">Checking current chart…</p>
+      </div>
+      <label class="switch" title="Enable overlay">
+        <input id="enabled" type="checkbox" />
+        <span></span>
+      </label>
+    </header>
+
+    <section class="card">
+      <div class="section-head">
+        <h2>Chart & layout</h2>
+        <span class="version">v1.2</span>
+      </div>
+      <div class="row two">
+        <label>
+          <span>Timeframe detection</span>
+          <select id="detectionMode">
+            <option value="auto">Auto detect</option>
+            <option value="manual">Manual fallback</option>
+          </select>
+        </label>
+        <label id="manualWrap">
+          <span>Manual timeframe</span>
+          <select id="manualTimeframe">
+            <option value="1m">1m</option>
+            <option value="3m">3m</option>
+            <option value="5m">5m</option>
+            <option value="15m">15m</option>
+            <option value="30m">30m</option>
+            <option value="1h">1h</option>
+            <option value="2h">2h</option>
+            <option value="4h">4h</option>
+            <option value="1D">1D</option>
+            <option value="1W">1W</option>
+            <option value="1M">1M</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>Display style</span>
+        <select id="layoutMode">
+          <option value="landscape">Landscape — ring + big timer + note</option>
+          <option value="badge">Compact badge — no large circle</option>
+          <option value="circle">Classic circle</option>
+        </select>
+      </label>
+
+      <div class="row actions">
+        <button id="redetect" class="secondary">Re-detect timeframe</button>
+        <button id="resetPosition" class="secondary">Use default position</button>
+      </div>
+      <p class="hint">Default position is now near the upper-right chart area, like your TradingView placement.</p>
+    </section>
+
+    <section class="card">
+      <h2>Phase colors</h2>
+      <div class="checks">
+        <label><input id="dynamicPhaseColors" type="checkbox" /> Smooth phase colors</label>
+        <label><input id="dynamicTextColor" type="checkbox" /> Color countdown</label>
+        <label><input id="dynamicBorderColor" type="checkbox" /> Color outer border</label>
+        <label><input id="showPhaseLabel" type="checkbox" /> Phase label</label>
+      </div>
+
+      <div class="colors three">
+        <label><span>Start / fresh</span><input id="ringColor" type="color" /></label>
+        <label><span>Warning</span><input id="warningColor" type="color" /></label>
+        <label><span>Ready / close</span><input id="readyColor" type="color" /></label>
+      </div>
+
+      <div class="row two">
+        <label><span>Warning starts <b data-out="warningStartPercent"></b></span><input id="warningStartPercent" type="range" min="5" max="80" step="1" /></label>
+        <label><span>Ready starts <b data-out="readyStartPercent"></b></span><input id="readyStartPercent" type="range" min="20" max="95" step="1" /></label>
+      </div>
+      <p class="hint">Default: first 33% stays green. Then it blends toward yellow, then gradually toward red near candle close.</p>
+    </section>
+
+    <section class="card">
+      <h2>Text & description</h2>
+      <label>
+        <span>Countdown note</span>
+        <textarea id="descriptionText" rows="2" maxlength="80" placeholder="Double-click to edit note"></textarea>
+      </label>
+      <p class="hint">You can also double-click the note directly on the chart to edit it.</p>
+      <div class="checks">
+        <label><input id="showTimeframe" type="checkbox" /> Show timeframe</label>
+        <label><input id="showCountdown" type="checkbox" /> Show countdown</label>
+        <label><input id="showDescription" type="checkbox" /> Show description</label>
+        <label><input id="showPercent" type="checkbox" /> Show progress %</label>
+        <label><input id="textShadow" type="checkbox" /> Strong text contrast</label>
+      </div>
+
+      <label>
+        <span>Font family</span>
+        <select id="fontFamily">
+          <option value='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'>System UI</option>
+          <option value='Arial, sans-serif'>Arial</option>
+          <option value='Helvetica, Arial, sans-serif'>Helvetica</option>
+          <option value='Verdana, sans-serif'>Verdana</option>
+          <option value='Tahoma, sans-serif'>Tahoma</option>
+          <option value='"Trebuchet MS", sans-serif'>Trebuchet MS</option>
+          <option value='Georgia, serif'>Georgia</option>
+          <option value='"Times New Roman", serif'>Times New Roman</option>
+          <option value='ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'>Monospace</option>
+        </select>
+      </label>
+
+      <div class="row two">
+        <label><span>Countdown font <b data-out="fontSize"></b></span><input id="fontSize" type="range" min="10" max="64" step="1" /></label>
+        <label><span>Timeframe font <b data-out="timeframeFontSize"></b></span><input id="timeframeFontSize" type="range" min="8" max="34" step="1" /></label>
+        <label><span>Description font <b data-out="descriptionFontSize"></b></span><input id="descriptionFontSize" type="range" min="7" max="24" step="1" /></label>
+        <label><span>Overall scale <b data-out="overallScale"></b></span><input id="overallScale" type="range" min="50" max="250" step="5" /></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Panel appearance</h2>
+      <div class="colors two-colors">
+        <label><span>Main text</span><input id="textColor" type="color" /></label>
+        <label><span>Secondary text</span><input id="mutedTextColor" type="color" /></label>
+        <label><span>Ring track</span><input id="trackColor" type="color" /></label>
+        <label><span>Background</span><input id="backgroundColor" type="color" /></label>
+        <label><span>Outer border</span><input id="borderColor" type="color" /></label>
+      </div>
+
+      <div class="row two">
+        <label><span>Background opacity <b data-out="backgroundOpacity"></b></span><input id="backgroundOpacity" type="range" min="0" max="100" step="1" /></label>
+        <label><span>Border width <b data-out="borderWidth"></b></span><input id="borderWidth" type="range" min="0" max="6" step="1" /></label>
+        <label><span>Corner radius <b data-out="borderRadius"></b></span><input id="borderRadius" type="range" min="0" max="60" step="1" /></label>
+        <label><span>Padding <b data-out="panelPadding"></b></span><input id="panelPadding" type="range" min="0" max="32" step="1" /></label>
+      </div>
+      <label class="inline-check"><input id="shadow" type="checkbox" /> Drop shadow</label>
+    </section>
+
+    <section class="card">
+      <h2>Circle & landscape size</h2>
+      <div class="row two">
+        <label><span>Circle size <b data-out="ringSize"></b></span><input id="ringSize" type="range" min="56" max="200" step="2" /></label>
+        <label><span>Ring thickness <b data-out="ringThickness"></b></span><input id="ringThickness" type="range" min="2" max="20" step="1" /></label>
+        <label><span>Landscape width <b data-out="landscapeWidth"></b></span><input id="landscapeWidth" type="range" min="220" max="620" step="2" /></label>
+        <label><span>Landscape height <b data-out="landscapeHeight"></b></span><input id="landscapeHeight" type="range" min="70" max="180" step="2" /></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Behavior</h2>
+      <div class="checks">
+        <label><input id="locked" type="checkbox" /> Lock position</label>
+      </div>
+      <div class="row two">
+        <label>
+          <span>Progress direction</span>
+          <select id="progressMode">
+            <option value="remaining">Drain toward candle close</option>
+            <option value="elapsed">Fill as candle progresses</option>
+          </select>
+        </label>
+        <label>
+          <span>Candle alignment offset (min)</span>
+          <input id="offsetMinutes" type="number" min="-1440" max="1440" step="1" />
+        </label>
+      </div>
+      <p class="hint">Only use the alignment offset when broker candle boundaries differ from standard UTC boundaries.</p>
+    </section>
+
+    <section class="footer-actions">
+      <button id="resetAll" class="danger">Reset all settings</button>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
