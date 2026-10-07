@@ -19,10 +19,10 @@
       </label>
     </header>
 
-    <section class="card">
+    <details class="card" open><summary>Chart & layout</summary><div class="section-body">
       <div class="section-head">
-        <h2>Chart & layout</h2>
-        <span class="version">v1.2</span>
+        
+        <span class="version">v1.13.0</span>
       </div>
       <div class="row two">
         <label>
@@ -35,17 +35,17 @@
         <label id="manualWrap">
           <span>Manual timeframe</span>
           <select id="manualTimeframe">
-            <option value="1m">1m</option>
-            <option value="3m">3m</option>
-            <option value="5m">5m</option>
-            <option value="15m">15m</option>
-            <option value="30m">30m</option>
-            <option value="1h">1h</option>
-            <option value="2h">2h</option>
-            <option value="4h">4h</option>
+            <option value="1m">1M</option>
+            <option value="3m">3M</option>
+            <option value="5m">5M</option>
+            <option value="15m">15M</option>
+            <option value="30m">30M</option>
+            <option value="1h">1H</option>
+            <option value="2h">2H</option>
+            <option value="4h">4H</option>
             <option value="1D">1D</option>
             <option value="1W">1W</option>
-            <option value="1M">1M</option>
+            <option value="1M">1MO (month)</option>
           </select>
         </label>
       </div>
@@ -53,7 +53,7 @@
       <label>
         <span>Display style</span>
         <select id="layoutMode">
-          <option value="landscape">Landscape — ring + big timer + note</option>
+          <option value="landscape">Landscape — ring + timer + market context</option>
           <option value="badge">Compact badge — no large circle</option>
           <option value="circle">Classic circle</option>
         </select>
@@ -64,10 +64,10 @@
         <button id="resetPosition" class="secondary">Use default position</button>
       </div>
       <p class="hint">Default position is now near the upper-right chart area, like your TradingView placement.</p>
-    </section>
+    </div></details>
 
-    <section class="card">
-      <h2>Phase colors</h2>
+    <details class="card" open><summary>Phase colors</summary><div class="section-body">
+      
       <div class="checks">
         <label><input id="dynamicPhaseColors" type="checkbox" /> Smooth phase colors</label>
         <label><input id="dynamicTextColor" type="checkbox" /> Color countdown</label>
@@ -86,21 +86,75 @@
         <label><span>Ready starts <b data-out="readyStartPercent"></b></span><input id="readyStartPercent" type="range" min="20" max="95" step="1" /></label>
       </div>
       <p class="hint">Default: first 33% stays green. Then it blends toward yellow, then gradually toward red near candle close.</p>
-    </section>
+    </div></details>
 
-    <section class="card">
-      <h2>Text & description</h2>
-      <label>
-        <span>Countdown note</span>
-        <textarea id="descriptionText" rows="2" maxlength="80" placeholder="Double-click to edit note"></textarea>
-      </label>
-      <p class="hint">You can also double-click the note directly on the chart to edit it.</p>
+    <details class="card" open><summary>Text & market context</summary><div class="section-body">
+      
       <div class="checks">
         <label><input id="showTimeframe" type="checkbox" /> Show timeframe</label>
         <label><input id="showCountdown" type="checkbox" /> Show countdown</label>
-        <label><input id="showDescription" type="checkbox" /> Show description</label>
         <label><input id="showPercent" type="checkbox" /> Show progress %</label>
         <label><input id="textShadow" type="checkbox" /> Strong text contrast</label>
+      </div>
+
+      <div class="context-config">
+        <label class="inline-check"><input id="showInstrument" type="checkbox" /> Instrument + live price</label>
+        <label class="inline-check"><input id="showRoundNumbers" type="checkbox" /> Nearest upper / lower round price + distance</label>
+        <label class="inline-check"><input id="autoRoundBySymbol" type="checkbox" /> Auto round step by symbol</label>
+        <label>
+          <span>Fallback round step</span>
+          <input id="roundNumberStep" type="number" min="0.00000001" step="any" />
+        </label>
+        <label class="inline-check"><input id="showLiveClock" type="checkbox" /> Current local clock</label>
+        <label class="inline-check"><input id="showClose3" type="checkbox" /> 3M candle badge</label>
+        <label class="inline-check"><input id="showClose5" type="checkbox" /> 5M candle badge</label>
+        <label class="inline-check"><input id="showClose15" type="checkbox" /> 15M candle badge</label>
+        <label class="inline-check"><input id="showClose30" type="checkbox" /> 30M candle badge</label>
+        <label class="inline-check"><input id="showClose45" type="checkbox" /> 45M candle badge</label>
+        <label class="inline-check"><input id="showClose1H" type="checkbox" /> 1H candle badge</label>
+        <label class="inline-check"><input id="showClose4H" type="checkbox" /> 4H candle badge</label>
+      </div>
+      <p class="hint"><b>Auto round rules:</b> BTC = 500 (5,000 major), Gold = 10 (100 major), US Oil = 0.1 (0.5 / whole-number levels become major). Only the nearest level above and below are shown, with the live distance from current price in parentheses. Major levels use bold text.</p>
+
+      <div class="colors five">
+        <label><span>Instrument</span><input id="instrumentColor" type="color" /></label>
+        <label><span>Live price</span><input id="priceColor" type="color" /></label>
+        <label><span>Upper round</span><input id="roundUpColor" type="color" /></label>
+        <label><span>Lower round</span><input id="roundDownColor" type="color" /></label>
+        <label><span>Live clock</span><input id="clockColor" type="color" /></label>
+        <label><span>Green candle badge</span><input id="badgeBullColor" type="color" /></label>
+        <label><span>Red candle badge</span><input id="badgeBearColor" type="color" /></label>
+        <label><span>Unknown / flat badge</span><input id="badgeNeutralColor" type="color" /></label>
+      </div>
+      <p class="hint">Clock is a plain numerical clock with no icon/seconds. TradingView cards use live multi-timeframe OHLC when the scanner supports the chart symbol. Exness uses the active chart OHLC immediately and tracks other timeframes; unverified candles stay neutral instead of showing a false green/red signal.</p>
+
+      <div class="row two">
+        <label>
+          <span>Countdown text format</span>
+          <select id="countdownUnitMode">
+            <option value="compact">Compact (0:30 / 3:59:45)</option>
+            <option value="letters">With unit letters (0M:30S)</option>
+          </select>
+        </label>
+        <label>
+          <span>Clock format</span>
+          <select id="clockFormat">
+            <option value="24h">24-hour (10:44)</option>
+            <option value="12h">12-hour (10:44 AM)</option>
+          </select>
+        </label>
+        <label>
+          <span>Clock font</span>
+          <select id="clockFontFamily">
+            <option value='ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'>Digital / Monospace</option>
+            <option value='system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'>System UI</option>
+            <option value='Arial, sans-serif'>Arial</option>
+            <option value='Verdana, sans-serif'>Verdana</option>
+            <option value='"Trebuchet MS", sans-serif'>Trebuchet MS</option>
+          </select>
+        </label>
+        <label><span>Clock font size <b data-out="clockFontSize"></b></span><input id="clockFontSize" type="range" min="12" max="54" step="1" /></label>
+        <label><span>Candle preview opacity <b data-out="candleBgOpacity"></b></span><input id="candleBgOpacity" type="range" min="5" max="60" step="1" /></label>
       </div>
 
       <label>
@@ -121,13 +175,13 @@
       <div class="row two">
         <label><span>Countdown font <b data-out="fontSize"></b></span><input id="fontSize" type="range" min="10" max="64" step="1" /></label>
         <label><span>Timeframe font <b data-out="timeframeFontSize"></b></span><input id="timeframeFontSize" type="range" min="8" max="34" step="1" /></label>
-        <label><span>Description font <b data-out="descriptionFontSize"></b></span><input id="descriptionFontSize" type="range" min="7" max="24" step="1" /></label>
+        <label><span>Info / badge font <b data-out="descriptionFontSize"></b></span><input id="descriptionFontSize" type="range" min="7" max="24" step="1" /></label>
         <label><span>Overall scale <b data-out="overallScale"></b></span><input id="overallScale" type="range" min="50" max="250" step="5" /></label>
       </div>
-    </section>
+    </div></details>
 
-    <section class="card">
-      <h2>Panel appearance</h2>
+    <details class="card" open><summary>Panel appearance</summary><div class="section-body">
+      
       <div class="colors two-colors">
         <label><span>Main text</span><input id="textColor" type="color" /></label>
         <label><span>Secondary text</span><input id="mutedTextColor" type="color" /></label>
@@ -143,20 +197,21 @@
         <label><span>Padding <b data-out="panelPadding"></b></span><input id="panelPadding" type="range" min="0" max="32" step="1" /></label>
       </div>
       <label class="inline-check"><input id="shadow" type="checkbox" /> Drop shadow</label>
-    </section>
+    </div></details>
 
-    <section class="card">
-      <h2>Circle & landscape size</h2>
+    <details class="card" open><summary>Ring & automatic panel size</summary><div class="section-body">
+      
       <div class="row two">
-        <label><span>Circle size <b data-out="ringSize"></b></span><input id="ringSize" type="range" min="56" max="200" step="2" /></label>
+        <label><span>Circle size <b data-out="ringSize"></b></span><input id="ringSize" type="range" min="48" max="180" step="2" /></label>
         <label><span>Ring thickness <b data-out="ringThickness"></b></span><input id="ringThickness" type="range" min="2" max="20" step="1" /></label>
-        <label><span>Landscape width <b data-out="landscapeWidth"></b></span><input id="landscapeWidth" type="range" min="220" max="620" step="2" /></label>
-        <label><span>Landscape height <b data-out="landscapeHeight"></b></span><input id="landscapeHeight" type="range" min="70" max="180" step="2" /></label>
+        <label><span>Timeframe card width <b data-out="timeframeCardWidth"></b></span><input id="timeframeCardWidth" type="range" min="72" max="150" step="2" /></label>
+        <label><span>Timeframe card height <b data-out="timeframeCardHeight"></b></span><input id="timeframeCardHeight" type="range" min="54" max="100" step="2" /></label>
       </div>
-    </section>
+      <p class="hint">The panel auto-sizes from the ring, large countdown/clock and enabled timeframe cards. Cards use a clearer full-width horizontal candle preview with larger timeframe/countdown text; only the candle body/wick proportions change with OHLC.</p>
+    </div></details>
 
-    <section class="card">
-      <h2>Behavior</h2>
+    <details class="card" open><summary>Behavior</summary><div class="section-body">
+      
       <div class="checks">
         <label><input id="locked" type="checkbox" /> Lock position</label>
       </div>
@@ -174,8 +229,9 @@
         </label>
       </div>
       <p class="hint">Only use the alignment offset when broker candle boundaries differ from standard UTC boundaries.</p>
-    </section>
+    </div></details>
 
+<details class="card" open><summary>Candle cards & selection</summary><div class="section-body"><label><span>Selected timeframe color</span><input id="selectedTimeframeColor" type="color" /></label><div class="row two"><label><span>Card left / right padding <b data-out="cardPaddingX"></b></span><input id="cardPaddingX" type="range" min="0" max="30" step="1" /></label><label><span>Candle left / right inset (%) <b data-out="candleInset"></b></span><input id="candleInset" type="range" min="0" max="30" step="1" /></label><label><span>Gap between cards <b data-out="cardGap"></b></span><input id="cardGap" type="range" min="0" max="24" step="1" /></label><label><span>Card text size <b data-out="cardTextSize"></b></span><input id="cardTextSize" type="range" min="9" max="28" step="1" /></label><label><span>Gap above candle row <b data-out="rowGap"></b></span><input id="rowGap" type="range" min="0" max="30" step="1" /></label><label><span>Gap between top columns <b data-out="topColumnGap"></b></span><input id="topColumnGap" type="range" min="0" max="40" step="1" /></label><label><span>Instrument / price text size <b data-out="instrumentFontSize"></b></span><input id="instrumentFontSize" type="range" min="10" max="40" step="1" /></label></div><p class="hint">Click a candle card to switch the chart. The selected highlight follows the detected chart interval. Unsupported intervals must be selected from the chart toolbar.</p></div></details>
     <section class="footer-actions">
       <button id="resetAll" class="danger">Reset all settings</button>
     </section>

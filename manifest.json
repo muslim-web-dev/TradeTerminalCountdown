@@ -1,15 +1,19 @@
 {
   "manifest_version": 3,
   "name": "Timeframe Ring Countdown",
-  "version": "1.2.0",
-  "description": "Draggable, customizable candle timeframe countdown overlay for TradingView and Exness.",
-  "permissions": ["storage", "activeTab"],
+  "version": "1.13.0",
+  "description": "Session-aware draggable multi-timeframe candle dashboard for TradingView and Exness with validated OHLC, independent live formation on every timeframe, live clock, instrument/price, round-level distances, and horizontal candle cards.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
   "host_permissions": [
     "*://*.tradingview.com/*",
     "*://*.exness.com/*",
     "*://*.exness.global/*",
     "*://*.exwebterm.com/*",
-    "*://*.extrade.global/*"
+    "*://*.extrade.global/*",
+    "https://scanner.tradingview.com/*"
   ],
   "action": {
     "default_title": "Timeframe Ring Countdown",
@@ -36,11 +40,16 @@
         "*://*.exwebterm.com/*",
         "*://*.extrade.global/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle",
       "all_frames": true,
       "match_about_blank": true,
       "match_origin_as_fallback": true
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
